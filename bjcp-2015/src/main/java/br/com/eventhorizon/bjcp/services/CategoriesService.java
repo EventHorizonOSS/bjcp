@@ -10,11 +10,16 @@ import java.util.List;
 public class CategoriesService {
 
   public List<Category> findCategories() {
-    Category c = new Category();
-    c.setName("My Category");
-
     List<Category> categories = new ArrayList<>();
-    categories.add(c);
+
+    categories.add(new Category(){{
+      setId("1");
+      setName("Category 1");
+    }});
+    categories.add(new Category(){{
+      setId("2");
+      setName("Category 2");
+    }});
 
     return categories;
   }

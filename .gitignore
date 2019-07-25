@@ -1,7 +1,9 @@
-# Compiled class file
+# Java
+out/**
 *.class
+build/
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -21,3 +23,21 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Intellij
+.idea
+atlassian-ide-plugin.xml
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.settings
+.project
+.classpath
+
+#gradle
+.gradle/
+
+# Maven
+target/

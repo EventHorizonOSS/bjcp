@@ -1,2 +1,6 @@
-# bjcp
-BJCP REST API implemented with  Spring WebMVC
+# BJCP
+BJCP REST API implemented with  Spring WebMVC 
+
+## License
+
+[LICENSE](./LICENSE)

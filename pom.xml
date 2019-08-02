@@ -12,6 +12,7 @@
     <description>BJCP REST API</description>
     <modules>
         <module>bjcp-2015</module>
+        <module>common</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -76,6 +77,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>br.com.eventhorizon.bjcp</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
             <!-- GlassFish -->
             <dependency>
                 <groupId>javax.servlet</groupId>

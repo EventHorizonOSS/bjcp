@@ -46,7 +46,9 @@
 
         <!-- Others -->
         <javax.jstl.version>1.2</javax.jstl.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.core.version>2.9.9</jackson.core.version>
+        <jackson.databind.version>2.9.9.2</jackson.databind.version>
+        <jackson.annotations.version>2.9.9</jackson.annotations.version>
     </properties>
 
     <build>
@@ -160,17 +162,17 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.databind.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
+                <version>${jackson.annotations.version}</version>
             </dependency>
 
             <!-- Others -->

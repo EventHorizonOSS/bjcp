@@ -1,10 +1,13 @@
 package br.com.eventhorizon.bjcp.config;
 
+import br.com.eventhorizon.bjcp.common.settings.SystemSetting;
+import br.com.eventhorizon.bjcp.common.settings.SystemSettingProvider;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
@@ -15,34 +18,34 @@ import java.util.Arrays;
 @Lazy
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
-  private static final String MONGO_SERVER_ADDRESS = "mongo.eventhorizon.com.br";
+  private SystemSettingProvider systemSettingProvider;
 
-  private static final int MONGO_SERVER_PORT = 27017;
-
-  private static final String MONGO_DATABASE = "bjcp";
-
-  private static final String MONGO_AUTH_DATABASE = "admin";
-
-  private static final String MONGO_AUTH_USERNAME = "root";
-
-  private static final String MONGO_AUTH_PASSWORD = "password";
+  @Autowired
+  public MongoConfig(SystemSettingProvider systemSettingProvider) {
+    this.systemSettingProvider = systemSettingProvider;
+  }
 
   @Override
   public MongoClient mongoClient() {
-    MongoCredential credential = MongoCredential.createScramSha1Credential(MONGO_AUTH_USERNAME,
-        MONGO_AUTH_DATABASE, MONGO_AUTH_PASSWORD.toCharArray());
+    String username = systemSettingProvider.getSettingValue(SystemSetting.MONGO_AUTH_USERNAME);
+    String authDatabase = systemSettingProvider.getSettingValue(SystemSetting.MONGO_AUTH_DATABASE);
+    String password = systemSettingProvider.getSettingValue(SystemSetting.MONGO_AUTH_PASSWORD);
+    String serverAddress = systemSettingProvider.getSettingValue(SystemSetting.MONGO_SERVER_ADDRESS);
+    int serverPort = systemSettingProvider.getSettingValue(SystemSetting.MONGO_SERVER_PORT);
+    MongoCredential credential =
+        MongoCredential.createScramSha1Credential(username, authDatabase, password.toCharArray());
     return MongoClients.create(
         MongoClientSettings.builder()
             .credential(credential)
             .applyToSslSettings(builder -> builder.enabled(false))
             .applyToClusterSettings(builder -> builder.hosts(
-                Arrays.asList(new ServerAddress(MONGO_SERVER_ADDRESS, MONGO_SERVER_PORT))))
+                Arrays.asList(new ServerAddress(serverAddress, serverPort))))
             .build());
   }
 
   @Override
   protected String getDatabaseName() {
-    return MONGO_DATABASE;
+    return systemSettingProvider.getSettingValue(SystemSetting.MONGO_DATABASE);
   }
 
 }

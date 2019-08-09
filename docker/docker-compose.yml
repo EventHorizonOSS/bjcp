@@ -11,6 +11,12 @@ services:
     environment:
       JAVA_OPTS: "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=6000,suspend=n -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=6001 -Dcom.sun.management.jmxremote.rmi.port=10483 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=localhost"
       LOG4J_CONFIGURATION_FILE: "/usr/local/tomcat/webapps/bjcp-2015/WEB-INF/classes/log4j.xml"
+      MONGO_SERVER_ADDRESS: "mongo.eventhorizon.com.br"
+      MONGO_SERVER_PORT: "27017"
+      MONGO_DATABASE: "bjcp"
+      MONGO_AUTH_DATABASE: "admin"
+      MONGO_AUTH_USERNAME: "root"
+      MONGO_AUTH_PASSWORD: "password"
     extra_hosts:
       - "localhost:127.0.0.1"
       - "localhost.eventhorizon.com.br:127.0.0.1"
@@ -27,7 +33,7 @@ services:
       - '6001:6001'
     volumes:
       # CATALINA_OPTS via setenv.sh
-#      - ./setenv.sh:/opt/tomcat/bin/setenv.sh
+      - ./bjcp/setenv.sh:/usr/local/tomcat/bin/setenv.sh
 
       # War files
       - ../bjcp-2015/target/bjcp-2015.war:/usr/local/tomcat/webapps/bjcp-2015.war

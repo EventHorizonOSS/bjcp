@@ -1,13 +1,13 @@
 package br.com.eventhorizon.bjcp.resources;
 
-import br.com.eventhorizon.bjcp.controllers.CategoriesController;
+import br.com.eventhorizon.bjcp.controllers.CategoryController;
 import br.com.eventhorizon.bjcp.model.Category;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
 public class CategoryResourceAssembler extends ResourceAssemblerSupport<Category, CategoryResource> {
 
   public CategoryResourceAssembler() {
-    super(CategoriesController.class, CategoryResource.class);
+    super(CategoryController.class, CategoryResource.class);
   }
 
   @Override

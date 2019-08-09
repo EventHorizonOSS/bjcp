@@ -43,6 +43,17 @@
         <spring.webmvc.version>5.1.8.RELEASE</spring.webmvc.version>
         <spring.aspects.version>5.1.8.RELEASE</spring.aspects.version>
         <spring.hateoas.version>0.25.1.RELEASE</spring.hateoas.version>
+        <spring.data.mongodb.version>2.1.10.RELEASE</spring.data.mongodb.version>
+
+        <!-- MongoDB -->
+        <mongodb.driver.version>3.11.0-rc0</mongodb.driver.version>
+
+        <!-- SLF4J -->
+        <slf4j.log4j12.version>1.7.26</slf4j.log4j12.version>
+
+        <!-- Log4j -->
+        <log4j.core.version>2.12.1</log4j.core.version>
+        <log4j.api.version>2.12.1</log4j.api.version>
 
         <!-- Others -->
         <javax.jstl.version>1.2</javax.jstl.version>
@@ -129,6 +140,18 @@
                 <artifactId>spring-hateoas</artifactId>
                 <version>${spring.hateoas.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-mongodb</artifactId>
+                <version>${spring.data.mongodb.version}</version>
+            </dependency>
+
+            <!-- MongoDB -->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-sync</artifactId>
+                <version>${mongodb.driver.version}</version>
+            </dependency>
 
             <!-- JUnit -->
             <dependency>
@@ -142,7 +165,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
+                <version>${slf4j.log4j12.version}</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -151,11 +174,17 @@
                 <version>${slf4j.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
+            <!-- log4j -->
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.16</version>
-                <scope>runtime</scope>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.api.version}</version>
             </dependency>
 
             <!-- Jackson -->

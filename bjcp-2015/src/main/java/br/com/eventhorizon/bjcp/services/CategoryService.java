@@ -1,7 +1,9 @@
 package br.com.eventhorizon.bjcp.services;
 
+import br.com.eventhorizon.bjcp.data.CategoryRepository;
 import br.com.eventhorizon.bjcp.data.StaticData;
 import br.com.eventhorizon.bjcp.model.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +14,16 @@ import java.util.stream.Stream;
 @Service
 public class CategoryService {
 
+  private CategoryRepository categoryRepository;
+
+  @Autowired
+  public CategoryService(CategoryRepository categoryRepository) {
+    this.categoryRepository = categoryRepository;
+  }
+
   public List<Category> find() {
-    return StaticData.categories;
+    return categoryRepository.findAll();
+    //return StaticData.categories;
   }
 
   public Category findById(String id) {

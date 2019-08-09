@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+    <Properties>
+        <Property name="log.dir">/usr/local/tomcat/logs/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+        </Console>
+
+        <RollingFile name="rolling-file" fileName="${sys:log.dir}/bjcp.log" filePattern="${sys:log.dir}/bjcp-%i.log.gz">
+            <PatternLayout pattern="%d %-5p [%c] (%t) %m%n"/>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <DefaultRolloverStrategy max="10"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.perf4j.TimingLogger" level="INFO" additivity="false">
+            <AppenderRef ref="consolePerformance"/>
+        </Logger>
+        <Logger name="Bjcp.Console" level="INFO" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="rolling-file"/>
+        </Logger>
+
+        <Logger name="Bjcp" level="INFO" additivity="false">
+            <AppenderRef ref="rolling-file"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="rolling-file"/>
+        </Root>
+    </Loggers>
+</Configuration>

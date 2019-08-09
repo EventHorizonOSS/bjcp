@@ -1,34 +1,22 @@
-package br.com.eventhorizon.bjcp.data;
+const collectionName = "categories";
 
-import br.com.eventhorizon.bjcp.model.Category;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public final class StaticData {
-
-  public static final List<Category> categories;
-
-  static {
-    categories = new ArrayList<>();
-    categories.add(Category.Builder.create()
-        .withId("1")
-        .withNumber(1)
-        .withName("Standard American Beer")
-        .withDescription("This category describes everyday American beers that have a wide public"
+const categories = [
+    {
+        _id: "1",
+        number: NumberInt(1),
+        name: "Standard American Beer",
+        description: "This category describes everyday American beers that have a wide public"
             + " appeal. Containing both ales and lagers, the beers of this "
             + "category are not typically complex, and have smooth, accessible flavors. The ales "
             + "tend to have lager-like qualities, or are designed to "
             + "appeal to mass-market lager drinkers as crossover beers. Mass-market beers with a "
             + "more international appeal or origin are "
-            + "described in the International Lager category.")
-        .build()
-    );
-    categories.add(Category.Builder.create()
-        .withId("2")
-        .withNumber(2)
-        .withName("International Lager")
-        .withDescription("International lagers are the premium mass-market lagers produced in "
+            + "described in the International Lager category."
+    }, {
+        _id: "2",
+        number: NumberInt(2),
+        name: "International Lager",
+        description: "International lagers are the premium mass-market lagers produced in "
             + "most countries in the world. Whether developed from"
             + "American or European styles, they all tend to have a fairly uniform character and "
             + "are heavily marketed. Loosely derived from"
@@ -37,14 +25,12 @@ public final class StaticData {
             + "In many countries, the styles will be referred to by their local country names. "
             + "The use of the term “international” doesn’t mean that "
             + "any beers are actually labeled as such; it is more of a categorization of similar "
-            + "beers produced worldwide.")
-        .build()
-    );
-    categories.add(Category.Builder.create()
-        .withId("3")
-        .withNumber(3)
-        .withName("Czech Lager")
-        .withDescription("Czech lagers are generally divided by gravity class (draft, lager, "
+            + "beers produced worldwide."
+    }, {
+        _id: "3",
+        number: NumberInt(3),
+        name: "Czech Lager",
+        description: "Czech lagers are generally divided by gravity class (draft, lager, "
             + "special) and color (pale, amber, dark). The Czech names for these "
             + "categories are světlé (pale), polotmavé (amber), and tmavé (dark). The gravity "
             + "classes are výčepní (draft, 7–10 °P), ležák (lager, 11–12 "
@@ -78,38 +64,70 @@ public final class StaticData {
             + "decoction mashes (often double decoction), even with modern malts, while most "
             + "modern German lagers are made with infusion or "
             + "step infusion mashes. These differences characterize the richness, mouthfeel, and "
-            + "flavor profile that distinguishes Czech lagers.")
-        .build()
-    );
-    categories.add(Category.Builder.create()
-        .withId("4")
-        .withNumber(4)
-        .withName("Pale Malty European Lager")
-        .withDescription("This style category contains malty, pale, Pilsner malt-driven German "
+            + "flavor profile that distinguishes Czech lagers."
+    }, {
+        _id: "4",
+        number: NumberInt(4),
+        name: "Pale Malty European Lager",
+        description: "This style category contains malty, pale, Pilsner malt-driven German "
             + "lagers of vollbier to starkbier strength. While malty, they are "
-            + "still well-attenuated, clean lagers, as are most German beers.")
-        .build()
-    );
-    categories.add(Category.Builder.create()
-        .withId("5")
-        .withNumber(5)
-        .withName("Pale Bitter European Lager")
-        .withDescription("This category describes German-origin beers that are pale and have an "
+            + "still well-attenuated, clean lagers, as are most German beers."
+    }, {
+        _id: "5",
+        number: NumberInt(5),
+        name: "Pale Bitter European Lager",
+        description: "This category describes German-origin beers that are pale and have an "
             + "even to bitter balance with a mild to moderately strong hoppy "
             + "character featuring classic German hops. They are generally bottom-fermented or "
             + "are lagered to provide a smooth profile, and are "
-            + "well-attenuated as are most German beers.")
-        .build()
-    );
-    categories.add(Category.Builder.create()
-        .withId("6")
-        .withNumber(6)
-        .withName("Amber Malty European Lager")
-        .withDescription("This category groups amber-colored, German-origin, bottom-fermented "
+            + "well-attenuated as are most German beers."
+    }, {
+        _id: "6",
+        number: NumberInt(6),
+        name: "Amber Malty European Lager",
+        description: "This category groups amber-colored, German-origin, bottom-fermented "
             + "lagerbiers that have a malty balance and are vollbier to "
-            + "starkbier in strength.")
-        .build()
-    );
-  }
+            + "starkbier in strength."
+    }
+]
 
+function success(message) {
+    printjson({
+        "status": "SUCCESS",
+        "msg": message
+    });
+}
+
+function fail(message, data) {
+    printjson({
+        "status": "FAILED",
+        "msg": message,
+        "data": data
+    });
+}
+
+try {
+    if (!db.getCollection(collectionName).exists()) {
+        db.createCollection(collectionName);
+        if (db.getCollection(collectionName).exists()) {
+            success("Successfully created collection " + collectionName);
+        } else {
+            fail("Failed to create collection " + collectionName);
+        }
+    }
+    let categoriesCollection = db.getCollection(collectionName);
+    categories.forEach(function(category) {
+        let now = new Date();
+        category.createdAt = now;
+        category.updatedAt = now;
+        let result = categoriesCollection.insertOne(category);
+        if (result.acknowledged === true) {
+            success("Successfully inserted category " + category._id);
+        } else {
+            fail("Failed to insert category " + category._id);
+        }
+    });
+    success("SUCCESS");
+} catch (e) {
+    fail("FAILED: " + e);
 }

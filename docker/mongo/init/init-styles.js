@@ -3,6 +3,7 @@ const collectionName = "styles";
 const documents = [
     {
         _id: "1A",
+        name: "American Light Lager",
         overallImpression: "Highly carbonated, very light-bodied, "
             + "nearly flavorless lager designed to be consumed very cold. Very "
             + "refreshing and thirst quenching",
@@ -42,11 +43,38 @@ const documents = [
             + "calorie version of an American Lager. Less hop character and "
             + "bitterness than a Leichtbier.",
         vitalStatistics: {
+            minIbu: 8,
+            maxIbu: 12,
+            minSrm: 2,
+            maxSrm: 3,
+            minOg: 1.028,
+            maxOg: 1.040,
+            minFg: 0.998,
+            maxFg: 1.008,
+            minAbv: 2.8,
+            maxAbv: 4.2
         },
         commercialExamples: [
+            "Bud Light",
+            "Coors Light",
+            "Keystone Light",
+            "Michelob Light",
+            "Miller Lite",
+            "Old Milwaukee Light"
         ],
         tags: [
+            "session-strength",
+            "pale-color",
+            "bottom-fermented",
+            "lagered",
+            "north-america",
+            "traditional-style",
+            "pale-lager-family",
+            "balanced"
         ]
+    },
+    {
+
     }
 ]
 

@@ -4,13 +4,15 @@ import br.com.eventhorizon.bjcp.common.util.IdUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseModel {
+public class BaseModel implements Cloneable {
 
+  @Id
   @JsonProperty("id")
   protected String id;
 
@@ -52,28 +54,27 @@ public class BaseModel {
     this.updatedAt = updatedAt;
   }
 
-  public String getId() {
-    return id;
+  protected BaseModel(BaseModel baseModel) {
+    this.id = baseModel.id;
+    this.createdAt = baseModel.createdAt;
+    this.updatedAt = baseModel.updatedAt;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public String getId() {
+    return id;
   }
 
   public Date getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
+  @Override
+  public BaseModel clone() {
+    return new BaseModel(this);
   }
 
 }

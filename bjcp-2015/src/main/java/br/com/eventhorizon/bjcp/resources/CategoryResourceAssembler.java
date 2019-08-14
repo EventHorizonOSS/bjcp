@@ -14,7 +14,6 @@ public class CategoryResourceAssembler extends ResourceAssemblerSupport<Category
   public CategoryResource toResource(Category category) {
     CategoryResource categoryResource = super.createResourceWithId(category.getId(), category);
     categoryResource.setCategoryId(category.getId());
-    categoryResource.setNumber(category.getNumber());
     categoryResource.setName(category.getName());
     categoryResource.setDescription(category.getDescription());
     return categoryResource;

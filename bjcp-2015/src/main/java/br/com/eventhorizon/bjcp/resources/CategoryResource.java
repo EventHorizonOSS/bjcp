@@ -6,8 +6,6 @@ public class CategoryResource extends ResourceSupport {
 
   private String categoryId;
 
-  private Integer number;
-
   private String name;
 
   private String description;
@@ -18,14 +16,6 @@ public class CategoryResource extends ResourceSupport {
 
   public void setCategoryId(String categoryId) {
     this.categoryId = categoryId;
-  }
-
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
   }
 
   public String getName() {

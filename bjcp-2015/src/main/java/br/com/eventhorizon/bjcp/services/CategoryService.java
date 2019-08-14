@@ -1,15 +1,15 @@
 package br.com.eventhorizon.bjcp.services;
 
 import br.com.eventhorizon.bjcp.data.CategoryRepository;
-import br.com.eventhorizon.bjcp.data.StaticData;
 import br.com.eventhorizon.bjcp.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -23,32 +23,27 @@ public class CategoryService {
 
   public List<Category> find() {
     return categoryRepository.findAll();
-    //return StaticData.categories;
   }
 
-  public Category findById(String id) {
-    return StaticData.categories.stream().filter(c -> c.getId().equals(id)).findFirst().get();
-  }
-
-  public Category findByNumber(Integer number) {
-    return StaticData.categories.stream().filter(c -> c.getNumber().equals(number)).findFirst().get();
-  }
-
-  public Category findByName(String name) {
-    return StaticData.categories.stream().filter(c -> c.getName().equals(name)).findFirst().get();
+  public Category findById(String id) throws ResourceNotFoundException {
+    Optional<Category> op = categoryRepository.findById(id);
+    if (op.isPresent()) {
+      return op.get();
+    }
+    throw new ResourceNotFoundException(id);
   }
 
   public List<Category> find(Map<String, String> query) {
-    Stream<Category> stream = StaticData.categories.stream();
+    // TODO
+    return Collections.emptyList();
+  }
 
-    if (query.containsKey("number")) {
-      stream = stream.filter(c -> c.getNumber().equals(Integer.parseInt(query.get("number"))));
+  public Category create(Category category) throws ResourceAlreadyExist {
+    try {
+      return this.categoryRepository.insert(category);
+    } catch (DuplicateKeyException e) {
+      throw new ResourceAlreadyExist(category.getId());
     }
-    if (query.containsKey("name")) {
-      stream = stream.filter(c -> c.getName().equals(query.get("name")));
-    }
-
-    return stream.collect(Collectors.toList());
   }
 
 }

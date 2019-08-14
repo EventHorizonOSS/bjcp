@@ -3,7 +3,6 @@ const collectionName = "categories";
 const categories = [
     {
         _id: "1",
-        number: NumberInt(1),
         name: "Standard American Beer",
         description: "This category describes everyday American beers that have a wide public"
             + " appeal. Containing both ales and lagers, the beers of this "
@@ -14,7 +13,6 @@ const categories = [
             + "described in the International Lager category."
     }, {
         _id: "2",
-        number: NumberInt(2),
         name: "International Lager",
         description: "International lagers are the premium mass-market lagers produced in "
             + "most countries in the world. Whether developed from"
@@ -28,7 +26,6 @@ const categories = [
             + "beers produced worldwide."
     }, {
         _id: "3",
-        number: NumberInt(3),
         name: "Czech Lager",
         description: "Czech lagers are generally divided by gravity class (draft, lager, "
             + "special) and color (pale, amber, dark). The Czech names for these "
@@ -67,14 +64,12 @@ const categories = [
             + "flavor profile that distinguishes Czech lagers."
     }, {
         _id: "4",
-        number: NumberInt(4),
         name: "Pale Malty European Lager",
         description: "This style category contains malty, pale, Pilsner malt-driven German "
             + "lagers of vollbier to starkbier strength. While malty, they are "
             + "still well-attenuated, clean lagers, as are most German beers."
     }, {
         _id: "5",
-        number: NumberInt(5),
         name: "Pale Bitter European Lager",
         description: "This category describes German-origin beers that are pale and have an "
             + "even to bitter balance with a mild to moderately strong hoppy "
@@ -83,7 +78,6 @@ const categories = [
             + "well-attenuated as are most German beers."
     }, {
         _id: "6",
-        number: NumberInt(6),
         name: "Amber Malty European Lager",
         description: "This category groups amber-colored, German-origin, bottom-fermented "
             + "lagerbiers that have a malty balance and are vollbier to "

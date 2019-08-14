@@ -4,73 +4,102 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class VitalStatistics {
+public class VitalStatistics implements Cloneable {
 
-  @JsonProperty("ibu")
-  private int ibu;
+  @JsonProperty("minIbu")
+  private int minIbu;
 
-  @JsonProperty("srm")
-  private int srm;
+  @JsonProperty("maxIbu")
+  private int maxIbu;
 
-  @JsonProperty("og")
-  private double og;
+  @JsonProperty("minSrm")
+  private int minSrm;
 
-  @JsonProperty("fg")
-  private double fg;
+  @JsonProperty("maxSrm")
+  private int maxSrm;
 
-  @JsonProperty("abv")
-  private double abv;
+  @JsonProperty("minOg")
+  private double minOg;
+
+  @JsonProperty("maxOg")
+  private double maxOg;
+
+  @JsonProperty("minFg")
+  private double minFg;
+
+  @JsonProperty("maxFg")
+  private double maxFg;
+
+  @JsonProperty("minAbv")
+  private double minAbv;
+
+  @JsonProperty("maxAbv")
+  private double maxAbv;
 
   public VitalStatistics() {
   }
 
-  public VitalStatistics(int ibu, int srm, double og, double fg, double abv) {
-    this.ibu = ibu;
-    this.srm = srm;
-    this.og = og;
-    this.fg = fg;
-    this.abv = abv;
+  private VitalStatistics(VitalStatistics vitalStatistics) {
+    this.minIbu = vitalStatistics.minIbu;
+    this.maxIbu = vitalStatistics.maxIbu;
+    this.minSrm = vitalStatistics.minSrm;
+    this.maxSrm = vitalStatistics.maxSrm;
+    this.minOg = vitalStatistics.minOg;
+    this.maxOg = vitalStatistics.maxOg;
+    this.minFg = vitalStatistics.minFg;
+    this.maxFg = vitalStatistics.maxFg;
+    this.minAbv = vitalStatistics.minAbv;
+    this.maxAbv = vitalStatistics.maxAbv;
   }
 
-  public VitalStatistics(Builder builder) {
-    this.ibu = builder.ibu;
-    this.srm = builder.srm;
-    this.og = builder.og;
-    this.fg = builder.fg;
-    this.abv = builder.abv;
+  public int getMinIbu() {
+    return minIbu;
   }
 
-  public int getIbu() {
-    return ibu;
+  public int getMaxIbu() {
+    return maxIbu;
   }
 
-  public int getSrm() {
-    return srm;
+  public int getMinSrm() {
+    return minSrm;
   }
 
-  public double getOg() {
-    return og;
+  public int getMaxSrm() {
+    return maxSrm;
   }
 
-  public double getFg() {
-    return fg;
+  public double getMinOg() {
+    return minOg;
   }
 
-  public double getAbv() {
-    return abv;
+  public double getMaxOg() {
+    return maxOg;
+  }
+
+  public double getMinFg() {
+    return minFg;
+  }
+
+  public double getMaxFg() {
+    return maxFg;
+  }
+
+  public double getMinAbv() {
+    return minAbv;
+  }
+
+  public double getMaxAbv() {
+    return maxAbv;
+  }
+
+  @Override
+  public VitalStatistics clone() {
+    return new VitalStatistics(this);
   }
 
   public static class Builder {
 
-    private int ibu;
-
-    private int srm;
-
-    private double og;
-
-    private double fg;
-
-    private double abv;
+    private VitalStatistics vitalStatistics = new VitalStatistics();
 
     private Builder() {
     }
@@ -79,45 +108,58 @@ public class VitalStatistics {
       return new Builder();
     }
 
-    public static Builder create(int ibu, int srm, double og, double fg, double abv) {
-      Builder builder = new Builder();
-
-      builder.ibu = ibu;
-      builder.srm = srm;
-      builder.og = og;
-      builder.fg = fg;
-      builder.abv = abv;
-
-      return builder;
-    }
-
-    public Builder withIbu(int ibu) {
-      this.ibu = ibu;
+    public Builder minIbu(int minIbu) {
+      this.vitalStatistics.minIbu = minIbu;
       return this;
     }
 
-    public Builder withSrm(int srm) {
-      this.srm = srm;
+    public Builder maxIbu(int maxIbu) {
+      this.vitalStatistics.maxIbu = maxIbu;
       return this;
     }
 
-    public Builder withOg(double og) {
-      this.og = og;
+    public Builder minSrm(int minSrm) {
+      this.vitalStatistics.minSrm = minSrm;
       return this;
     }
 
-    public Builder withFg(double fg) {
-      this.fg = fg;
+    public Builder maxSrm(int maxSrm) {
+      this.vitalStatistics.maxSrm = maxSrm;
       return this;
     }
 
-    public Builder withAbv(double abv) {
-      this.abv = abv;
+    public Builder minOg(double minOg) {
+      this.vitalStatistics.minOg = minOg;
+      return this;
+    }
+
+    public Builder maxOg(double maxOg) {
+      this.vitalStatistics.maxOg = maxOg;
+      return this;
+    }
+
+    public Builder minFg(double minFg) {
+      this.vitalStatistics.minFg = minFg;
+      return this;
+    }
+
+    public Builder maxFg(double maxFg) {
+      this.vitalStatistics.maxFg = maxFg;
+      return this;
+    }
+
+    public Builder minAbv(double minAbv) {
+      this.vitalStatistics.minAbv = minAbv;
+      return this;
+    }
+
+    public Builder maxAbv(double maxAbv) {
+      this.vitalStatistics.maxAbv = maxAbv;
       return this;
     }
 
     public VitalStatistics build() {
-      return new VitalStatistics(this);
+      return this.vitalStatistics.clone();
     }
 
   }

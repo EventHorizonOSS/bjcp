@@ -21,7 +21,18 @@ public class VitalStatistics {
   @JsonProperty("abv")
   private double abv;
 
-  private VitalStatistics(Builder builder) {
+  public VitalStatistics() {
+  }
+
+  public VitalStatistics(int ibu, int srm, double og, double fg, double abv) {
+    this.ibu = ibu;
+    this.srm = srm;
+    this.og = og;
+    this.fg = fg;
+    this.abv = abv;
+  }
+
+  public VitalStatistics(Builder builder) {
     this.ibu = builder.ibu;
     this.srm = builder.srm;
     this.og = builder.og;

@@ -1,9 +1,9 @@
 package br.com.eventhorizon.bjcp.common.settings;
 
-public interface SettingProvider<T1> {
+public interface SettingProvider<S> {
 
-  <T2> T2 getSettingValue(String settingName);
+  <V> V get(S setting) throws InvalidSettingException, UndefinedSettingException;
 
-  <T2> T2 getSettingValue(T1 setting);
+  <V> V getOrDefault(S setting) throws InvalidSettingException;
 
 }

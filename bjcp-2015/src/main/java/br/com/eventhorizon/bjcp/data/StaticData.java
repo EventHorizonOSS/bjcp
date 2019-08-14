@@ -1,6 +1,8 @@
 package br.com.eventhorizon.bjcp.data;
 
 import br.com.eventhorizon.bjcp.model.Category;
+import br.com.eventhorizon.bjcp.model.Style;
+import br.com.eventhorizon.bjcp.model.VitalStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 public final class StaticData {
 
   public static final List<Category> categories;
+
+  public static final List<Style> styles;
 
   static {
     categories = new ArrayList<>();
@@ -110,6 +114,158 @@ public final class StaticData {
             + "starkbier in strength.")
         .build()
     );
+    categories.add(Category.Builder.create()
+        .withId("7")
+        .withNumber(7)
+        .withName("Amber Bitter European Beer")
+        .withDescription(
+            "This category groups amber-colored, evenly balanced to bitter balanced beers of "
+                + "German or Austrian origin.")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("8")
+        .withNumber(8)
+        .withName("Dark European Lager")
+        .withDescription(
+            "This category contains German vollbier lagers darker than amber-brown color.")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("9")
+        .withNumber(9)
+        .withName("String European Beer")
+        .withDescription("This category contains more strongly flavored and higher alcohol lagers"
+            + " from Germany and the Baltic region. Most are dark, but "
+            + "some pale versions are known.")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("10")
+        .withNumber(10)
+        .withName("German Wheat Beer")
+        .withDescription(
+            "This category contains vollbier- and starkbier-strength German wheat beers without "
+                + "sourness, in light and dark colors.")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("11")
+        .withNumber(11)
+        .withName("British Bitter")
+        .withDescription("The family of British bitters grew out of English pale ales as a "
+            + "draught product in the late 1800s. The use of crystal malts in bitters "
+            + "became more widespread after WWI. Traditionally served very fresh under no "
+            + "pressure (gravity or hand pump only) at cellar "
+            + "temperatures (i.e., “real ale”). Most bottled or kegged versions of UK-produced "
+            + "bitters are often higher-alcohol and more highly "
+            + "carbonated versions of cask products produced for export, and have a different "
+            + "character and balance than their draught "
+            + "counterparts in Britain (often being sweeter and less hoppy than the cask "
+            + "versions). These guidelines reflect the “real ale” version of "
+            + "the style, not the export formulations of commercial products. "
+            + "Several regional variations of bitter exist, ranging from darker, sweeter versions"
+            + " served with nearly no head to brighter, hoppier, "
+            + "paler versions with large foam stands, and everything in between. "
+            + "Judges should not over-emphasize the caramel component of these styles. Exported "
+            + "bitters can be oxidized, which increases caramellike flavors (as well as more "
+            + "negative flavors). Do not assume that oxidation-derived flavors are traditional or"
+            + " required for the style.")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("12")
+        .withNumber(12)
+        .withName("Pale Commonwealth Beer")
+        .withDescription(
+            "This category contains pale, moderately-strong, hop-forward, bitter ales from "
+                + "countries within the former British Empire.")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("13")
+        .withNumber(13)
+        .withName("Brown British Beer")
+        .withDescription("While Dark Mild, Brown Ale, and English Porter may have long and "
+            + "storied histories, these guidelines describe the modern versions. "
+            + "They are grouped together for judging purposes only since they often have similar "
+            + "flavors and balance, not because of any implied "
+            + "common ancestry. The similar characteristics are low to moderate strength, dark "
+            + "color, generally malty balance, and British "
+            + "ancestry. These styles have no historic relationship to each other; especially, "
+            + "none of these styles evolved into any of the others, or was "
+            + "ever a component of another. The category name was never used historically to "
+            + "describe this grouping of beers; it is our name for the "
+            + "judging category. “Brown Beer” was a distinct and important historical product, "
+            + "and is not related to this category name")
+        .build()
+    );
+    categories.add(Category.Builder.create()
+        .withId("14")
+        .withNumber(14)
+        .withName("Scottish Ale")
+        .withDescription("The original meaning of ‘schilling’ (/-) ales have been described "
+            + "incorrectly for years. A single style of beer was never designated as a "
+            + "60/-, 70/- or 80/-. The schillings only referring to the cost of the barrel of "
+            + "beer. Meaning there were 54/- Stouts and 86/- IPAs and so "
+            + "on. The Scottish Ales in question were termed Light, Heavy and Export which cover "
+            + "the spectrum of costs from around 60/- to 90/- "
+            + "and simply dark, malt-focused ales. The larger 120/- ales fall outside of this "
+            + "purview as well as the strongest Scotch ales (aka Wee "
+            + "Heavy).The Scottish Light, Heavy and Export guidelines read nearly the same for "
+            + "each style of beers. As the gravity increases, so does "
+            + "the character of the beers in question. Historically, the three types of beer were"
+            + " parti-gyled to different strengths, and represented an "
+            + "adaptation of English pale ales but with reduced strengths and hopping rates, and "
+            + "darker colors (often from added caramel). More "
+            + "modern versions (post-WWII, at least), tended to use more complex grists.")
+        .build()
+    );
+
+    styles = new ArrayList<>();
+    Style style = new Style("1A");
+    style.setOverallImpression("Highly carbonated, very light-bodied, "
+        + "nearly flavorless lager designed to be consumed very cold. Very "
+        + "refreshing and thirst quenching");
+    style.setAroma("Low to no malt aroma, although it can be perceived as "
+        + "grainy, sweet, or corn-like if present. Hop aroma is light to "
+        + "none, with a spicy or floral hop character if present. While a "
+        + "clean fermentation character is desirable, a light amount of "
+        + "yeast character (particularly a light apple fruitiness) is not a "
+        + "fault. Light DMS is not a fault.");
+    style.setAppearance("Very pale straw to pale yellow color. White, "
+        + "frothy head seldom persists. Very clear.");
+    style.setFlavor("Relatively neutral palate with a crisp and dry finish "
+        + "and a low to very low grainy or corn-like flavor that might be "
+        + "perceived as sweetness due to the low bitterness. Hop flavor "
+        + "ranges from none to low levels, and can have a floral, spicy, or "
+        + "herbal quality (although rarely strong enough to detect). Low "
+        + "to very low hop bitterness. Balance may vary from slightly "
+        + "malty to slightly bitter, but is relatively close to even. High "
+        + "levels of carbonation may accentuate the crispness of the dry "
+        + "finish. Clean lager fermentation character.");
+    style.setMouthfeel("Very light (sometimes watery) body. Very highly "
+        + "carbonated with slight carbonic bite on the tongue.");
+    style.setComments("Designed to appeal to as broad a range of the "
+        + "general public as possible. Strong flavors are a fault.");
+    style.setHistory("Coors briefly made a light lager in the early 1940s. "
+        + "Modern versions were first produced by Rheingold in 1967 to "
+        + "appeal to diet-conscious drinkers, but only became popular "
+        + "starting in 1973 after Miller Brewing acquired the recipe and "
+        + "marketed the beer heavily to sports fans with the “tastes great, "
+        + "less filling” campaign. Beers of this genre became the largest "
+        + "sellers in the United States in the 1990s.");
+    style.setCharacteristicIngredients("Two- or six-row barley with "
+        + "high percentage (up to 40%) of rice or corn as adjuncts. "
+        + "Additional enzymes can further lighten the body and lower "
+        + "carbohydrates.");
+    style.setStyleComparison("A lighter-bodied, lower-alcohol, lower "
+        + "calorie version of an American Lager. Less hop character and "
+        + "bitterness than a Leichtbier.");
+    style.setVitalStatistics(new VitalStatistics());
+    style.setCommercialExamples(new ArrayList<>());
+    style.setTags(new ArrayList<>());
+    styles.add(style);
   }
 
 }

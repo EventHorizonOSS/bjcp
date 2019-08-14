@@ -1,39 +1,33 @@
 package br.com.eventhorizon.bjcp.common.settings;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
 
 @Component
 public class SystemSettingProvider implements SettingProvider<SystemSetting> {
 
-  private static final Logger LOGGER = LogManager.getLogger(SystemSettingProvider.class);
+  @Override
+  public <V> V get(SystemSetting setting) throws InvalidSettingException,
+      UndefinedSettingException {
+    String key = setting.getKey();
+    Properties properties = System.getProperties();
+    if (properties.containsKey(key)) {
+      return (V) setting.parse(properties.getProperty(key));
+    }
 
-  private Map<SystemSetting, Object> systemSettings = new HashMap<>();
-
-  public SystemSettingProvider() {
-    System.getProperties().forEach((k, v) -> {
-      try {
-        SystemSetting setting = SystemSetting.fromName((String)k);
-        systemSettings.put(setting, setting.parseValue((String)v));
-      } catch (Exception e) {
-        // TODO
-      }
-    });
-    LOGGER.info("System Settings: " + systemSettings);
+    throw new UndefinedSettingException("Setting " + setting.getKey() + " is undefined");
   }
 
   @Override
-  public <T> T getSettingValue(String settingName) {
-    return (T) systemSettings.get(SystemSetting.valueOf(settingName));
-  }
+  public <V> V getOrDefault(SystemSetting setting) throws InvalidSettingException {
+    String key = setting.getKey();
+    Properties properties = System.getProperties();
+    if (properties.containsKey(key)) {
+      return (V) setting.parse(properties.getProperty(key));
+    }
 
-  @Override
-  public <T2> T2 getSettingValue(SystemSetting setting) {
-    return (T2) systemSettings.get(setting);
+    return (V) setting.getDefaultValue();
   }
 
 }

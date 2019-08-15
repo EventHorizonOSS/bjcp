@@ -53,7 +53,7 @@ public class HttpResponse {
   public static class Error {
 
     @JsonProperty("code")
-    private String code;
+    private ErrorCode code;
 
     @JsonProperty("message")
     private String message;
@@ -64,7 +64,7 @@ public class HttpResponse {
     private Error() {
     }
 
-    public String getCode() {
+    public ErrorCode getCode() {
       return code;
     }
 
@@ -95,7 +95,7 @@ public class HttpResponse {
       return this;
     }
 
-    public Builder errorCode(String errorCode) {
+    public Builder errorCode(ErrorCode errorCode) {
       if (this.httpResponse.error == null) {
         this.httpResponse.error = new Error();
       }

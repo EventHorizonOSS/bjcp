@@ -46,4 +46,12 @@ public class CategoryService {
     }
   }
 
+  public Category update(Category category) {
+    try {
+      return this.categoryRepository.save(category);
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
 }

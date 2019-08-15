@@ -11,7 +11,8 @@ const categories = [
             + "appeal to mass-market lager drinkers as crossover beers. Mass-market beers with a "
             + "more international appeal or origin are "
             + "described in the International Lager category."
-    }, {
+    },
+    {
         _id: "2",
         name: "International Lager",
         description: "International lagers are the premium mass-market lagers produced in "
@@ -24,7 +25,8 @@ const categories = [
             + "The use of the term “international” doesn’t mean that "
             + "any beers are actually labeled as such; it is more of a categorization of similar "
             + "beers produced worldwide."
-    }, {
+    },
+    {
         _id: "3",
         name: "Czech Lager",
         description: "Czech lagers are generally divided by gravity class (draft, lager, "
@@ -62,13 +64,15 @@ const categories = [
             + "modern German lagers are made with infusion or "
             + "step infusion mashes. These differences characterize the richness, mouthfeel, and "
             + "flavor profile that distinguishes Czech lagers."
-    }, {
+    },
+    {
         _id: "4",
         name: "Pale Malty European Lager",
         description: "This style category contains malty, pale, Pilsner malt-driven German "
             + "lagers of vollbier to starkbier strength. While malty, they are "
             + "still well-attenuated, clean lagers, as are most German beers."
-    }, {
+    },
+    {
         _id: "5",
         name: "Pale Bitter European Lager",
         description: "This category describes German-origin beers that are pale and have an "
@@ -76,7 +80,8 @@ const categories = [
             + "character featuring classic German hops. They are generally bottom-fermented or "
             + "are lagered to provide a smooth profile, and are "
             + "well-attenuated as are most German beers."
-    }, {
+    },
+    {
         _id: "6",
         name: "Amber Malty European Lager",
         description: "This category groups amber-colored, German-origin, bottom-fermented "
@@ -101,6 +106,7 @@ function fail(message, data) {
 }
 
 try {
+    // Create collection if it does not exist
     if (!db.getCollection(collectionName).exists()) {
         db.createCollection(collectionName);
         if (db.getCollection(collectionName).exists()) {
@@ -108,6 +114,8 @@ try {
         } else {
             fail("Failed to create collection " + collectionName);
         }
+
+        db.getCollection(collectionName).createIndex({ name: 1 }, { unique: true} );
     }
     let categoriesCollection = db.getCollection(collectionName);
     categories.forEach(function(category) {

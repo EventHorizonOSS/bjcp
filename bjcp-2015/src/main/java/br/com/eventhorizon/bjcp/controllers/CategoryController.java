@@ -1,5 +1,6 @@
 package br.com.eventhorizon.bjcp.controllers;
 
+import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
 import br.com.eventhorizon.bjcp.model.Category;
 import br.com.eventhorizon.bjcp.services.CategoryService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +57,7 @@ public class CategoryController {
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode("INTERNAL_SERVER_ERROR")
+              .errorCode(ErrorCode.UNKNOWN_ERROR)
               .errorMessage("Unknown error")
               .build());
     }
@@ -79,14 +81,14 @@ public class CategoryController {
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
           .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-              .errorCode("RESOURCE_NOT_FOUND")
+              .errorCode(ErrorCode.RESOURCE_NOT_FOUND)
               .errorMessage("Resource not found")
               .build());
     } catch (Exception e) {
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode("INTERNAL_SERVER_ERROR")
+              .errorCode(ErrorCode.UNKNOWN_ERROR)
               .errorMessage("Unknown error")
               .build());
     }
@@ -107,14 +109,36 @@ public class CategoryController {
       return ResponseEntity
           .status(HttpStatus.CONFLICT)
           .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-              .errorCode("RESOURCE_ALREADY_EXIST")
+              .errorCode(ErrorCode.RESOURCE_ALREADY_EXIST)
               .errorMessage("Resource already exist")
               .build());
     } catch (Exception e) {
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode("INTERNAL_SERVER_ERROR")
+              .errorCode(ErrorCode.UNKNOWN_ERROR)
+              .errorMessage("Unknown error")
+              .build());
+    }
+  }
+
+  @PutMapping("/{id}")
+  @ResponseBody
+  public ResponseEntity putCategory(@PathVariable String id, @RequestBody Category category) {
+    try {
+      category.setId(id);
+      Category updatedCategory = this.categoryService.update(category);
+
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
+              .data(updatedCategory)
+              .build());
+    } catch (Exception e) {
+      return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
+              .errorCode(ErrorCode.UNKNOWN_ERROR)
               .errorMessage("Unknown error")
               .build());
     }

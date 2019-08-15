@@ -1,5 +1,6 @@
 package br.com.eventhorizon.bjcp.controllers;
 
+import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
 import br.com.eventhorizon.bjcp.model.Style;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
@@ -53,7 +54,7 @@ public class StyleController {
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode("INTERNAL_SERVER_ERROR")
+              .errorCode(ErrorCode.UNKNOWN_ERROR)
               .errorMessage("Unknown error")
               .build());
     }
@@ -78,14 +79,14 @@ public class StyleController {
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
           .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-              .errorCode("RESOURCE_NOT_FOUND")
+              .errorCode(ErrorCode.RESOURCE_NOT_FOUND)
               .errorMessage("Resource not found")
               .build());
     } catch (Exception e) {
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode("INTERNAL_SERVER_ERROR")
+              .errorCode(ErrorCode.UNKNOWN_ERROR)
               .errorMessage("Unknown error")
               .build());
     }

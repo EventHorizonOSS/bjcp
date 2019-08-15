@@ -13,10 +13,10 @@ public class VitalStatistics implements Cloneable {
   private int maxIbu;
 
   @JsonProperty("minSrm")
-  private int minSrm;
+  private double minSrm;
 
   @JsonProperty("maxSrm")
-  private int maxSrm;
+  private double maxSrm;
 
   @JsonProperty("minOg")
   private double minOg;
@@ -60,11 +60,11 @@ public class VitalStatistics implements Cloneable {
     return maxIbu;
   }
 
-  public int getMinSrm() {
+  public double getMinSrm() {
     return minSrm;
   }
 
-  public int getMaxSrm() {
+  public double getMaxSrm() {
     return maxSrm;
   }
 
@@ -118,12 +118,12 @@ public class VitalStatistics implements Cloneable {
       return this;
     }
 
-    public Builder minSrm(int minSrm) {
+    public Builder minSrm(double minSrm) {
       this.vitalStatistics.minSrm = minSrm;
       return this;
     }
 
-    public Builder maxSrm(int maxSrm) {
+    public Builder maxSrm(double maxSrm) {
       this.vitalStatistics.maxSrm = maxSrm;
       return this;
     }

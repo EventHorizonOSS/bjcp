@@ -1,4 +1,4 @@
-package br.com.eventhorizon.bjcp.model;
+package br.com.eventhorizon.bjcp.common.model;
 
 import br.com.eventhorizon.bjcp.common.util.IdUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseModel implements Cloneable {
+public class Model implements Cloneable {
 
   @Id
   @JsonProperty("id")
@@ -22,14 +22,14 @@ public class BaseModel implements Cloneable {
   @JsonIgnore
   protected Date updatedAt;
 
-  public BaseModel() throws NoSuchAlgorithmException {
+  public Model() throws NoSuchAlgorithmException {
     Date now = new Date();
     this.id = IdUtil.generateDocumentId();
     this.createdAt = now;
     this.updatedAt = now;
   }
 
-  public BaseModel(String id) {
+  public Model(String id) {
     if (id == null || id.isEmpty()) {
       throw new IllegalArgumentException("id cannot be null or empty");
     }
@@ -39,7 +39,7 @@ public class BaseModel implements Cloneable {
     this.updatedAt = now;
   }
 
-  public BaseModel(String id, Date createdAt, Date updatedAt) {
+  public Model(String id, Date createdAt, Date updatedAt) {
     if (id == null || id.isEmpty()) {
       throw new IllegalArgumentException("id cannot be null or empty");
     }
@@ -54,10 +54,10 @@ public class BaseModel implements Cloneable {
     this.updatedAt = updatedAt;
   }
 
-  protected BaseModel(BaseModel baseModel) {
-    this.id = baseModel.id;
-    this.createdAt = baseModel.createdAt;
-    this.updatedAt = baseModel.updatedAt;
+  protected Model(Model model) {
+    this.id = model.id;
+    this.createdAt = model.createdAt;
+    this.updatedAt = model.updatedAt;
   }
 
   public String getId() {
@@ -85,8 +85,8 @@ public class BaseModel implements Cloneable {
   }
 
   @Override
-  public BaseModel clone() {
-    return new BaseModel(this);
+  public Model clone() {
+    return new Model(this);
   }
 
 }

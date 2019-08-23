@@ -1,16 +1,16 @@
 package br.com.eventhorizon.bjcp.model;
 
+import br.com.eventhorizon.bjcp.common.model.Model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.StringJoiner;
 
 @Document(collection = "categories")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Category extends BaseModel {
+public class Category extends Model {
 
   @JsonProperty("name")
   private String name;

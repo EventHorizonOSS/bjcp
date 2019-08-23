@@ -43,6 +43,7 @@
         <spring.webmvc.version>5.1.8.RELEASE</spring.webmvc.version>
         <spring.aspects.version>5.1.8.RELEASE</spring.aspects.version>
         <spring.hateoas.version>0.25.1.RELEASE</spring.hateoas.version>
+        <spring.data.commons.version>2.1.10.RELEASE</spring.data.commons.version>
         <spring.data.mongodb.version>2.1.10.RELEASE</spring.data.mongodb.version>
 
         <!-- MongoDB -->
@@ -139,6 +140,11 @@
                 <groupId>org.springframework.hateoas</groupId>
                 <artifactId>spring-hateoas</artifactId>
                 <version>${spring.hateoas.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring.data.commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>

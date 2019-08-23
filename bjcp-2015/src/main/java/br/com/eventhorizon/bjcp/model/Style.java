@@ -1,5 +1,6 @@
 package br.com.eventhorizon.bjcp.model;
 
+import br.com.eventhorizon.bjcp.common.model.Model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Document(collection = "styles")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Style extends BaseModel {
+public class Style extends Model {
 
   @JsonProperty("name")
   private String name;

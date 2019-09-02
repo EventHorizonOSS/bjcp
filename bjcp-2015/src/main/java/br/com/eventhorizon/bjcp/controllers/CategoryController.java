@@ -2,17 +2,19 @@ package br.com.eventhorizon.bjcp.controllers;
 
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
+import br.com.eventhorizon.bjcp.common.model.PostValidator;
 import br.com.eventhorizon.bjcp.model.Category;
-import br.com.eventhorizon.bjcp.model.CategoryValidator;
 import br.com.eventhorizon.bjcp.services.CategoryService;
 import br.com.eventhorizon.bjcp.services.ResourceAlreadyExist;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,12 +34,9 @@ public class CategoryController {
 
   private CategoryService categoryService;
 
-  private CategoryValidator categoryValidator;
-
   @Autowired
-  public CategoryController(CategoryService categoryService, CategoryValidator categoryValidator) {
+  public CategoryController(CategoryService categoryService) {
     this.categoryService = categoryService;
-    this.categoryValidator = categoryValidator;
   }
 
   @GetMapping
@@ -64,7 +63,7 @@ public class CategoryController {
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
               .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error")
+              .errorMessage("Unknown error: " + e.getMessage())
               .build());
     }
   }
@@ -95,25 +94,16 @@ public class CategoryController {
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
               .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error")
+              .errorMessage("Unknown error: " + e.getMessage())
               .build());
     }
   }
 
   @PostMapping
   @ResponseBody
-  public ResponseEntity postCategory(@RequestBody Category category) {
+  public ResponseEntity postCategory(
+      @Validated(PostValidator.class) @RequestBody Category category) {
     try {
-      Errors errors = categoryValidator.validate(category, HttpMethod.POST);
-      if (errors.hasErrors()) {
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-                .errorCode(ErrorCode.INVALID_RESOURCE)
-                .errorMessage("Invalid resource")
-                .build());
-      }
-
       Category createdCategory = this.categoryService.create(category);
 
       return ResponseEntity
@@ -133,7 +123,7 @@ public class CategoryController {
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
               .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error")
+              .errorMessage("Unknown error: " + e.getMessage())
               .build());
     }
   }
@@ -155,9 +145,24 @@ public class CategoryController {
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
               .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error")
+              .errorMessage("Unknown error: " + e.getMessage())
               .build());
     }
+  }
+
+  @ExceptionHandler
+  public ResponseEntity handleException(MethodArgumentNotValidException exception) {
+    String errorMessage = exception.getBindingResult().getFieldErrors().stream()
+        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        .findFirst()
+        .orElse(exception.getMessage());
+
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
+            .errorCode(ErrorCode.INVALID_RESOURCE)
+            .errorMessage(exception.getMessage() + ": " + errorMessage)
+            .build());
   }
 
 }

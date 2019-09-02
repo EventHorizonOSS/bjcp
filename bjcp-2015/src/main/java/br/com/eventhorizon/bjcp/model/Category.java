@@ -1,6 +1,7 @@
 package br.com.eventhorizon.bjcp.model;
 
 import br.com.eventhorizon.bjcp.common.model.Model;
+import br.com.eventhorizon.bjcp.common.model.PostValidator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,13 +9,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.security.NoSuchAlgorithmException;
 import java.util.StringJoiner;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 @Document(collection = "categories")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Category extends Model {
 
+  @NotEmpty(message = "Name cannot be null or empty", groups = PostValidator.class)
+  @NotBlank(message = "Name cannot be blank", groups = PostValidator.class)
   @JsonProperty("name")
   private String name;
 
+  @NotEmpty(message = "Description cannot be null or empty", groups = PostValidator.class)
+  @NotBlank(message = "Description cannot be blank", groups = PostValidator.class)
   @JsonProperty("description")
   private String description;
 

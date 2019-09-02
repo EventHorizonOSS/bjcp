@@ -46,6 +46,9 @@
         <spring.data.commons.version>2.1.10.RELEASE</spring.data.commons.version>
         <spring.data.mongodb.version>2.1.10.RELEASE</spring.data.mongodb.version>
 
+        <!-- Hibernate -->
+        <hibernate.validator.version>6.0.17.Final</hibernate.validator.version>
+
         <!-- MongoDB -->
         <mongodb.driver.version>3.11.0-rc0</mongodb.driver.version>
 
@@ -150,6 +153,13 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-mongodb</artifactId>
                 <version>${spring.data.mongodb.version}</version>
+            </dependency>
+
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
             </dependency>
 
             <!-- MongoDB -->

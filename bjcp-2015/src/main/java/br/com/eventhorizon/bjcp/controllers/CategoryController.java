@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/categories")
@@ -152,16 +154,30 @@ public class CategoryController {
 
   @ExceptionHandler
   public ResponseEntity handleException(MethodArgumentNotValidException exception) {
-    String errorMessage = exception.getBindingResult().getFieldErrors().stream()
+//    String errorMessage = exception.getBindingResult().getFieldErrors().stream()
+//        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+//        .findFirst()
+//        .orElse(exception.getMessage());
+
+    List<String> errors = exception.getBindingResult().getFieldErrors().stream()
         .map(DefaultMessageSourceResolvable::getDefaultMessage)
-        .findFirst()
-        .orElse(exception.getMessage());
+        .collect(Collectors.toList());
+    if (errors != null && !errors.isEmpty()) {
+      return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
+              .errorCode(ErrorCode.INVALID_RESOURCE)
+              .errorMessage("Validation error")
+              .errorDetails(errors)
+              .build());
+    }
 
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
         .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
             .errorCode(ErrorCode.INVALID_RESOURCE)
-            .errorMessage(exception.getMessage() + ": " + errorMessage)
+            .errorMessage("Validation error")
+            .errorDetails(exception.getMessage())
             .build());
   }
 

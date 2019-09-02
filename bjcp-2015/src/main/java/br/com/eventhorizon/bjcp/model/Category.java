@@ -16,13 +16,11 @@ import javax.validation.constraints.NotEmpty;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Category extends Model {
 
-  @NotEmpty(message = "Name cannot be null or empty", groups = PostValidator.class)
-  @NotBlank(message = "Name cannot be blank", groups = PostValidator.class)
+  @NotBlank(message = "Name cannot be null, empty or blank", groups = PostValidator.class)
   @JsonProperty("name")
   private String name;
 
-  @NotEmpty(message = "Description cannot be null or empty", groups = PostValidator.class)
-  @NotBlank(message = "Description cannot be blank", groups = PostValidator.class)
+  @NotBlank(message = "Description cannot be null, empty or blank", groups = PostValidator.class)
   @JsonProperty("description")
   private String description;
 

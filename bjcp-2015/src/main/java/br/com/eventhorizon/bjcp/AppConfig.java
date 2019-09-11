@@ -1,19 +1,17 @@
 package br.com.eventhorizon.bjcp;
 
+import br.com.eventhorizon.bjcp.common.data.BaseRepositoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.Map;
-import java.util.Properties;
 import java.util.StringJoiner;
 
 @Configuration
 @EnableWebMvc
-//@EnableHypermediaSupport(type= {EnableHypermediaSupport.HypermediaType.HAL})
-@EnableMongoRepositories
+@EnableMongoRepositories(repositoryBaseClass = BaseRepositoryImpl.class)
 public class AppConfig {
 
   private static final Logger LOGGER = LogManager.getLogger(AppConfig.class);

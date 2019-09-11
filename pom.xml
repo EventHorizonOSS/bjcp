@@ -38,6 +38,7 @@
         <spring.version>4.3.19.RELEASE</spring.version>
         <spring.core.version>5.1.8.RELEASE</spring.core.version>
         <spring.context.version>5.1.8.RELEASE</spring.context.version>
+        <spring.transaction.version>5.1.8.RELEASE</spring.transaction.version>
         <spring.aop.version>5.1.8.RELEASE</spring.aop.version>
         <spring.web.version>5.1.8.RELEASE</spring.web.version>
         <spring.webmvc.version>5.1.8.RELEASE</spring.webmvc.version>
@@ -118,6 +119,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.context.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.transaction.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

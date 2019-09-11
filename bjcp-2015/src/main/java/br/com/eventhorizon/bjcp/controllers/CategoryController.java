@@ -1,5 +1,6 @@
 package br.com.eventhorizon.bjcp.controllers;
 
+import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
 import br.com.eventhorizon.bjcp.common.model.PostValidator;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/categories")
-public class CategoryController {
+public class CategoryController extends Controller {
 
   private CategoryService categoryService;
 
@@ -44,30 +45,21 @@ public class CategoryController {
   @GetMapping
   @ResponseBody
   public ResponseEntity getCategories(@RequestParam Map<String, String> query) {
-    try {
-      HttpHeaders responseHeaders = new HttpHeaders();
-      responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
+    HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
 
-      List<Category> categories;
-      if (query.isEmpty()) {
-        categories = categoryService.find();
-      } else {
-        categories = categoryService.find(query);
-      }
-
-      return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
-              .data(categories)
-              .build());
-    } catch (Exception e) {
-      return ResponseEntity
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error: " + e.getMessage())
-              .build());
+    List<Category> categories;
+    if (query.isEmpty()) {
+      categories = categoryService.find();
+    } else {
+      categories = categoryService.find(query);
     }
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
+            .data(categories)
+            .build());
   }
 
   @GetMapping("/{id}")
@@ -91,13 +83,6 @@ public class CategoryController {
               .errorCode(ErrorCode.RESOURCE_NOT_FOUND)
               .errorMessage("Resource not found")
               .build());
-    } catch (Exception e) {
-      return ResponseEntity
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error: " + e.getMessage())
-              .build());
     }
   }
 
@@ -120,13 +105,6 @@ public class CategoryController {
               .errorCode(ErrorCode.RESOURCE_ALREADY_EXIST)
               .errorMessage("Resource already exist")
               .build());
-    } catch (Exception e) {
-      return ResponseEntity
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error: " + e.getMessage())
-              .build());
     }
   }
 
@@ -142,43 +120,14 @@ public class CategoryController {
           .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
               .data(updatedCategory)
               .build());
-    } catch (Exception e) {
+    } catch (ResourceNotFoundException e) {
       return ResponseEntity
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error: " + e.getMessage())
-              .build());
-    }
-  }
-
-  @ExceptionHandler
-  public ResponseEntity handleException(MethodArgumentNotValidException exception) {
-//    String errorMessage = exception.getBindingResult().getFieldErrors().stream()
-//        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-//        .findFirst()
-//        .orElse(exception.getMessage());
-
-    List<String> errors = exception.getBindingResult().getFieldErrors().stream()
-        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-        .collect(Collectors.toList());
-    if (errors != null && !errors.isEmpty()) {
-      return ResponseEntity
-          .status(HttpStatus.BAD_REQUEST)
+          .status(HttpStatus.NOT_FOUND)
           .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-              .errorCode(ErrorCode.INVALID_RESOURCE)
-              .errorMessage("Validation error")
-              .errorDetails(errors)
+              .errorCode(ErrorCode.RESOURCE_NOT_FOUND)
+              .errorMessage("Resource not found")
               .build());
     }
-
-    return ResponseEntity
-        .status(HttpStatus.BAD_REQUEST)
-        .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-            .errorCode(ErrorCode.INVALID_RESOURCE)
-            .errorMessage("Validation error")
-            .errorDetails(exception.getMessage())
-            .build());
   }
 
 }

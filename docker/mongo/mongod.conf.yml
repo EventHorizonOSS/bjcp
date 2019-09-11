@@ -7,8 +7,8 @@ net:
 #    allowConnectionsWithoutCertificates: true
 #    allowInvalidCertificates: true
 
-security:
-  authorization: "enabled"
+#security:
+#  authorization: "enabled"
 
 storage:
   dbPath: "/data/mongo/data"
@@ -20,5 +20,5 @@ systemLog:
   path: "/data/mongo/logs/mongo.log"
   logAppend: true
 
-setParameter:
-  authenticationMechanisms: SCRAM-SHA-1
+#setParameter:
+#  authenticationMechanisms: SCRAM-SHA-1

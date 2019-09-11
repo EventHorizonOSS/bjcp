@@ -46,12 +46,12 @@ public class CategoryService {
     }
   }
 
-  public Category update(Category category) {
-    try {
-      return this.categoryRepository.save(category);
-    } catch (Exception e) {
-      throw e;
+  public Category update(Category category) throws ResourceNotFoundException {
+    Category updatedCategory = this.categoryRepository.save(category);
+    if (updatedCategory == null) {
+      throw new ResourceNotFoundException(category.getId());
     }
+    return updatedCategory;
   }
 
 }

@@ -1,5 +1,6 @@
 package br.com.eventhorizon.bjcp.controllers;
 
+import br.com.eventhorizon.bjcp.common.domain.validation.UpdateValidation;
 import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -105,7 +107,7 @@ public class CategoryController extends Controller {
 
   @PutMapping("/{id}")
   @ResponseBody
-  public ResponseEntity putCategory(@PathVariable String id, @RequestBody Category category) {
+  public ResponseEntity putCategory(@PathVariable String id, @Validated(UpdateValidation.class) @RequestBody Category category) {
     try {
       category.setId(id);
       Category updatedCategory = this.categoryService.update(category);
@@ -114,6 +116,28 @@ public class CategoryController extends Controller {
           .status(HttpStatus.OK)
           .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
               .data(updatedCategory)
+              .build());
+    } catch (ResourceNotFoundException e) {
+      return ResponseEntity
+          .status(HttpStatus.NOT_FOUND)
+          .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
+              .errorCode(ErrorCode.RESOURCE_NOT_FOUND)
+              .errorMessage("Resource not found")
+              .build());
+    }
+  }
+
+  @PatchMapping("/{id}")
+  @ResponseBody
+  public ResponseEntity patchCategory(@PathVariable String id, @RequestBody Category category) {
+    try {
+      category.setId(id);
+      Category patchedCategory = this.categoryService.patch(category);
+
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
+              .data(patchedCategory)
               .build());
     } catch (ResourceNotFoundException e) {
       return ResponseEntity

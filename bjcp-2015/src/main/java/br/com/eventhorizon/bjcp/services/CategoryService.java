@@ -41,14 +41,22 @@ public class CategoryService {
 
   public Category create(Category category) throws ResourceAlreadyExistException {
     try {
-      return this.categoryRepository.insert((PersistedCategory) category);
+      return this.categoryRepository.create((PersistedCategory) category);
     } catch (DuplicateKeyException e) {
       throw new ResourceAlreadyExistException(category.getId());
     }
   }
 
   public Category update(Category category) throws ResourceNotFoundException {
-    Category updatedCategory = this.categoryRepository.save((PersistedCategory) category);
+    Category updatedCategory = this.categoryRepository.update((PersistedCategory) category);
+    if (updatedCategory == null) {
+      throw new ResourceNotFoundException(category.getId());
+    }
+    return updatedCategory;
+  }
+
+  public Category patch(Category category) throws ResourceNotFoundException {
+    Category updatedCategory = this.categoryRepository.patch((PersistedCategory) category);
     if (updatedCategory == null) {
       throw new ResourceNotFoundException(category.getId());
     }

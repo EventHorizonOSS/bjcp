@@ -2,6 +2,7 @@ package br.com.eventhorizon.bjcp.persistence;
 
 import br.com.eventhorizon.bjcp.common.persistence.BasePersistedModel;
 import br.com.eventhorizon.bjcp.domain.model.Category;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.StringJoiner;
@@ -9,6 +10,7 @@ import java.util.StringJoiner;
 @Document(collection = "categories")
 public class PersistedCategory extends BasePersistedModel implements Category {
 
+  @Indexed(unique = true)
   private String name;
 
   private String description;

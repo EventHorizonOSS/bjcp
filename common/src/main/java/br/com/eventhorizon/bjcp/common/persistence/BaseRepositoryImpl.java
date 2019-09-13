@@ -1,5 +1,6 @@
 package br.com.eventhorizon.bjcp.common.persistence;
 
+import br.com.eventhorizon.bjcp.common.util.IdUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.repository.support.SimpleMongoRepository
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -28,6 +30,34 @@ public class BaseRepositoryImpl<T extends BasePersistedModel, ID extends Seriali
   @Transactional
   @Override
   public <S extends T> S save(S obj) {
+    return update(obj);
+  }
+
+  @Override
+  public <S extends T> S create(S obj) {
+    String id = obj.getId();
+    if (id == null || id.isEmpty()) {
+      try {
+        obj.setId(IdUtil.generateDocumentId());
+      } catch (NoSuchAlgorithmException e) {
+        // TODO
+      }
+    }
+    Long now = new Date().getTime();
+    obj.setCreatedAt(now);
+    obj.setUpdatedAt(now);
+    return super.insert(obj);
+  }
+
+  @Override
+  public <S extends T> S update(S obj) {
+    Long now = new Date().getTime();
+    obj.setUpdatedAt(now);
+    return (S) mongoOperations.save(obj);
+  }
+
+  @Override
+  public <S extends T> S patch(S obj) {
     Long now = new Date().getTime();
     obj.setUpdatedAt(now);
 

@@ -10,4 +10,10 @@ public interface BaseRepository<T extends BasePersistedModel, ID extends Seriali
 
   <S extends T> S save(S obj);
 
+  <S extends T> S create(S obj);
+
+  <S extends T> S update(S obj);
+
+  <S extends T> S patch(S obj);
+
 }

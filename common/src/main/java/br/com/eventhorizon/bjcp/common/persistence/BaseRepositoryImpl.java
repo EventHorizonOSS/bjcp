@@ -1,6 +1,5 @@
 package br.com.eventhorizon.bjcp.common.persistence;
 
-import br.com.eventhorizon.bjcp.common.domain.BaseModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,8 +14,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
-public class BaseRepositoryImpl<T extends BaseModel, ID extends Serializable> extends SimpleMongoRepository<T, ID> implements
-    BaseRepository<T,ID> {
+public class BaseRepositoryImpl<T extends BasePersistedModel, ID extends Serializable> extends SimpleMongoRepository<T, ID> implements
+    BaseRepository<T, ID> {
 
   protected MongoOperations mongoOperations;
 

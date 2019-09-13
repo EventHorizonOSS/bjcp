@@ -1,68 +1,69 @@
-package br.com.eventhorizon.bjcp.common.domain;
+package br.com.eventhorizon.bjcp.common.persistence;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import br.com.eventhorizon.bjcp.common.domain.model.BaseDomainModel;
 import org.springframework.data.annotation.Id;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseModel implements Cloneable {
+public class BasePersistedModel implements BaseDomainModel {
 
   @Id
-  @JsonProperty("id")
   protected String id;
 
-  @JsonProperty("createdAt")
   protected Long createdAt;
 
-  @JsonProperty("updatedAt")
   protected Long updatedAt;
 
-  public BaseModel() {
+  public BasePersistedModel() {
   }
 
-  public BaseModel(String id) {
+  public BasePersistedModel(String id) {
     this.id = id;
   }
 
-  public BaseModel(String id, Long createdAt, Long updatedAt) {
+  public BasePersistedModel(String id, Long createdAt, Long updatedAt) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
 
-  protected BaseModel(BaseModel baseModel) {
+  protected BasePersistedModel(BasePersistedModel baseModel) {
     this.id = baseModel.id;
     this.createdAt = baseModel.createdAt;
     this.updatedAt = baseModel.updatedAt;
   }
 
+  @Override
   public String getId() {
     return id;
   }
 
+  @Override
   public void setId(String id) {
     this.id = id;
   }
 
+  @Override
   public Long getCreatedAt() {
     return createdAt;
   }
 
+  @Override
   public void setCreatedAt(Long createdAt) {
     this.createdAt = createdAt;
   }
 
+  @Override
   public Long getUpdatedAt() {
     return updatedAt;
   }
 
+  @Override
   public void setUpdatedAt(Long updatedAt) {
     this.updatedAt = updatedAt;
   }
 
   @Override
-  public BaseModel clone() {
-    return new BaseModel(this);
+  public BasePersistedModel clone() {
+    return new BasePersistedModel(this);
   }
 
 }

@@ -1,7 +1,8 @@
 package br.com.eventhorizon.bjcp.services;
 
 import br.com.eventhorizon.bjcp.persistence.CategoryRepository;
-import br.com.eventhorizon.bjcp.domain.Category;
+import br.com.eventhorizon.bjcp.domain.model.Category;
+import br.com.eventhorizon.bjcp.persistence.PersistedCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,12 @@ public class CategoryService {
     this.categoryRepository = categoryRepository;
   }
 
-  public List<Category> find() {
+  public List<? extends Category> find() {
     return categoryRepository.findAll();
   }
 
   public Category findById(String id) throws ResourceNotFoundException {
-    Optional<Category> op = categoryRepository.findById(id);
+    Optional<? extends Category> op = categoryRepository.findById(id);
     if (op.isPresent()) {
       return op.get();
     }
@@ -40,14 +41,14 @@ public class CategoryService {
 
   public Category create(Category category) throws ResourceAlreadyExistException {
     try {
-      return this.categoryRepository.insert(category);
+      return this.categoryRepository.insert((PersistedCategory) category);
     } catch (DuplicateKeyException e) {
       throw new ResourceAlreadyExistException(category.getId());
     }
   }
 
   public Category update(Category category) throws ResourceNotFoundException {
-    Category updatedCategory = this.categoryRepository.save(category);
+    Category updatedCategory = this.categoryRepository.save((PersistedCategory) category);
     if (updatedCategory == null) {
       throw new ResourceNotFoundException(category.getId());
     }

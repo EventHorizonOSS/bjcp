@@ -4,7 +4,7 @@ import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
 import br.com.eventhorizon.bjcp.common.domain.validation.CreateValidation;
-import br.com.eventhorizon.bjcp.domain.Category;
+import br.com.eventhorizon.bjcp.domain.model.Category;
 import br.com.eventhorizon.bjcp.services.CategoryService;
 import br.com.eventhorizon.bjcp.services.ResourceAlreadyExistException;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
@@ -43,7 +43,7 @@ public class CategoryController extends Controller {
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
 
-    List<Category> categories;
+    List<? extends Category> categories;
     if (query.isEmpty()) {
       categories = categoryService.find();
     } else {

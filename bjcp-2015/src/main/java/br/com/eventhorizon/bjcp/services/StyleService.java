@@ -1,7 +1,7 @@
 package br.com.eventhorizon.bjcp.services;
 
 import br.com.eventhorizon.bjcp.persistence.StyleRepository;
-import br.com.eventhorizon.bjcp.domain.Style;
+import br.com.eventhorizon.bjcp.domain.model.Style;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +20,12 @@ public class StyleService {
     this.styleRepository = styleRepository;
   }
 
-  public List<Style> find() {
+  public List<? extends Style> find() {
     return styleRepository.findAll();
   }
 
   public Style findById(String id) throws ResourceNotFoundException {
-    Optional<Style> op = styleRepository.findById(id);
+    Optional<? extends Style> op = styleRepository.findById(id);
     if (op.isPresent()) {
       return op.get();
     }

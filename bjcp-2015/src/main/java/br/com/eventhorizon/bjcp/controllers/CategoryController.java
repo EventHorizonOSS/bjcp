@@ -3,19 +3,16 @@ package br.com.eventhorizon.bjcp.controllers;
 import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
-import br.com.eventhorizon.bjcp.common.model.PostValidator;
-import br.com.eventhorizon.bjcp.model.Category;
+import br.com.eventhorizon.bjcp.common.domain.validation.CreateValidation;
+import br.com.eventhorizon.bjcp.domain.Category;
 import br.com.eventhorizon.bjcp.services.CategoryService;
-import br.com.eventhorizon.bjcp.services.ResourceAlreadyExist;
+import br.com.eventhorizon.bjcp.services.ResourceAlreadyExistException;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/categories")
@@ -89,7 +84,7 @@ public class CategoryController extends Controller {
   @PostMapping
   @ResponseBody
   public ResponseEntity postCategory(
-      @Validated(PostValidator.class) @RequestBody Category category) {
+      @Validated(CreateValidation.class) @RequestBody Category category) {
     try {
       Category createdCategory = this.categoryService.create(category);
 
@@ -98,7 +93,7 @@ public class CategoryController extends Controller {
           .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
               .data(createdCategory)
               .build());
-    } catch (ResourceAlreadyExist e) {
+    } catch (ResourceAlreadyExistException e) {
       return ResponseEntity
           .status(HttpStatus.CONFLICT)
           .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)

@@ -1,7 +1,7 @@
 package br.com.eventhorizon.bjcp.services;
 
-import br.com.eventhorizon.bjcp.data.StyleRepository;
-import br.com.eventhorizon.bjcp.model.Style;
+import br.com.eventhorizon.bjcp.persistence.StyleRepository;
+import br.com.eventhorizon.bjcp.domain.Style;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

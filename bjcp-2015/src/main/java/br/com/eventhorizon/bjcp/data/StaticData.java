@@ -1,8 +1,8 @@
 package br.com.eventhorizon.bjcp.data;
 
-import br.com.eventhorizon.bjcp.model.Category;
-import br.com.eventhorizon.bjcp.model.Style;
-import br.com.eventhorizon.bjcp.model.VitalStatistics;
+import br.com.eventhorizon.bjcp.domain.Category;
+import br.com.eventhorizon.bjcp.domain.Style;
+import br.com.eventhorizon.bjcp.domain.VitalStatistics;
 
 import java.util.ArrayList;
 import java.util.List;

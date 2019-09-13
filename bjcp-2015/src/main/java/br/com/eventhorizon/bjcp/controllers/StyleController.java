@@ -2,7 +2,7 @@ package br.com.eventhorizon.bjcp.controllers;
 
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.HttpResponse;
-import br.com.eventhorizon.bjcp.model.Style;
+import br.com.eventhorizon.bjcp.domain.Style;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
 import br.com.eventhorizon.bjcp.services.StyleService;
 import org.springframework.beans.factory.annotation.Autowired;

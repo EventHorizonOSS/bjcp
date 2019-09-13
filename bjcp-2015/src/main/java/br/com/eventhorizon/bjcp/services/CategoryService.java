@@ -1,7 +1,7 @@
 package br.com.eventhorizon.bjcp.services;
 
-import br.com.eventhorizon.bjcp.data.CategoryRepository;
-import br.com.eventhorizon.bjcp.model.Category;
+import br.com.eventhorizon.bjcp.persistence.CategoryRepository;
+import br.com.eventhorizon.bjcp.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -38,11 +38,11 @@ public class CategoryService {
     return Collections.emptyList();
   }
 
-  public Category create(Category category) throws ResourceAlreadyExist {
+  public Category create(Category category) throws ResourceAlreadyExistException {
     try {
       return this.categoryRepository.insert(category);
     } catch (DuplicateKeyException e) {
-      throw new ResourceAlreadyExist(category.getId());
+      throw new ResourceAlreadyExistException(category.getId());
     }
   }
 

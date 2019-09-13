@@ -1,30 +1,30 @@
-package br.com.eventhorizon.bjcp.model;
+package br.com.eventhorizon.bjcp.domain;
 
-import br.com.eventhorizon.bjcp.common.model.Model;
-import br.com.eventhorizon.bjcp.common.model.PostValidator;
+import br.com.eventhorizon.bjcp.common.domain.BaseModel;
+
+import br.com.eventhorizon.bjcp.common.domain.validation.CreateValidation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.StringJoiner;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 @Document(collection = "categories")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Category extends Model {
+public class Category extends BaseModel {
 
-  @NotBlank(message = "Name cannot be null, empty or blank", groups = PostValidator.class)
+  @NotBlank(message = "Name cannot be null, empty or blank", groups = CreateValidation.class)
   @JsonProperty("name")
   private String name;
 
-  @NotBlank(message = "Description cannot be null, empty or blank", groups = PostValidator.class)
+  @NotBlank(message = "Description cannot be null, empty or blank", groups = CreateValidation.class)
   @JsonProperty("description")
   private String description;
 
-  public Category() throws NoSuchAlgorithmException {
+  public Category() {
     super();
   }
 

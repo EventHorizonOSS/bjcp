@@ -1,6 +1,6 @@
 package br.com.eventhorizon.bjcp;
 
-import br.com.eventhorizon.bjcp.common.data.BaseRepositoryImpl;
+import br.com.eventhorizon.bjcp.common.persistence.BaseRepositoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Configuration;

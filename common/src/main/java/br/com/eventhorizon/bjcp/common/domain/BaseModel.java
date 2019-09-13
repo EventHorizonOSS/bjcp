@@ -1,11 +1,11 @@
-package br.com.eventhorizon.bjcp.common.model;
+package br.com.eventhorizon.bjcp.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Model implements Cloneable {
+public class BaseModel implements Cloneable {
 
   @Id
   @JsonProperty("id")
@@ -17,23 +17,23 @@ public class Model implements Cloneable {
   @JsonProperty("updatedAt")
   protected Long updatedAt;
 
-  public Model() {
+  public BaseModel() {
   }
 
-  public Model(String id) {
+  public BaseModel(String id) {
     this.id = id;
   }
 
-  public Model(String id, Long createdAt, Long updatedAt) {
+  public BaseModel(String id, Long createdAt, Long updatedAt) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
 
-  protected Model(Model model) {
-    this.id = model.id;
-    this.createdAt = model.createdAt;
-    this.updatedAt = model.updatedAt;
+  protected BaseModel(BaseModel baseModel) {
+    this.id = baseModel.id;
+    this.createdAt = baseModel.createdAt;
+    this.updatedAt = baseModel.updatedAt;
   }
 
   public String getId() {
@@ -61,8 +61,8 @@ public class Model implements Cloneable {
   }
 
   @Override
-  public Model clone() {
-    return new Model(this);
+  public BaseModel clone() {
+    return new BaseModel(this);
   }
 
 }

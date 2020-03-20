@@ -10,38 +10,52 @@
     <name>bjcp</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>BJCP REST API</description>
+    <packaging>pom</packaging>
+
     <modules>
         <module>bjcp-2015</module>
         <module>common</module>
     </modules>
-    <packaging>pom</packaging>
 
     <properties>
-        <!-- General -->
+        <!-- General Properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.minimum.maven.version>3.0.5</project.minimum.maven.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <java.version>1.8</java.version>
-        <skipUnitTests>false</skipUnitTests>
+<!--        <maven.compiler.release>11</maven.compiler.release>-->
+        <skipUnitTests>true</skipUnitTests>
+        <skipIntegrtionTests>true</skipIntegrtionTests>
 
-        <!-- Plugins -->
-        <surefire.plugin.version>2.19.1</surefire.plugin.version>
+        <!-- Plugin Version -->
+        <maven.versions.version>2.7</maven.versions.version>
+        <maven.clean.version>3.1.0</maven.clean.version>
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.surefire.version>3.0.0-M4</maven.surefire.version>
+        <maven.install.version>3.0.0-M1</maven.install.version>
+        <maven.site.version>3.8.2</maven.site.version>
+        <maven.deploy.version>3.0.0-M1</maven.deploy.version>
+        <maven.jar.version>3.2.0</maven.jar.version>
+        <maven.war.version>3.2.3</maven.war.version>
+        <maven.resources.version>3.1.0</maven.resources.version>
+        <maven.enforcer.version>3.0.0-M3</maven.enforcer.version>
 
-        <!-- Testing -->
+        <!-- Dependency Versions -->
+
+        <!-- JUnit -->
         <junit.version>4.12</junit.version>
 
         <!-- GlassFish -->
         <javax.servlet.version>4.0.1</javax.servlet.version>
 
         <!-- Spring -->
-        <spring.version>4.3.19.RELEASE</spring.version>
-        <spring.core.version>5.1.8.RELEASE</spring.core.version>
-        <spring.context.version>5.1.8.RELEASE</spring.context.version>
-        <spring.aop.version>5.1.8.RELEASE</spring.aop.version>
-        <spring.web.version>5.1.8.RELEASE</spring.web.version>
-        <spring.webmvc.version>5.1.8.RELEASE</spring.webmvc.version>
-        <spring.aspects.version>5.1.8.RELEASE</spring.aspects.version>
+        <spring.core.version>5.2.4.RELEASE</spring.core.version>
+        <spring.context.version>5.2.4.RELEASE</spring.context.version>
+        <spring.aop.version>5.2.4.RELEASE</spring.aop.version>
+        <spring.web.version>5.2.4.RELEASE</spring.web.version>
+        <spring.webmvc.version>5.2.4.RELEASE</spring.webmvc.version>
+        <spring.aspects.version>5.2.4.RELEASE</spring.aspects.version>
         <spring.hateoas.version>0.25.1.RELEASE</spring.hateoas.version>
         <spring.data.commons.version>2.1.10.RELEASE</spring.data.commons.version>
         <spring.data.mongodb.version>2.1.10.RELEASE</spring.data.mongodb.version>
@@ -59,35 +73,153 @@
         <log4j.core.version>2.12.1</log4j.core.version>
         <log4j.api.version>2.12.1</log4j.api.version>
 
+        <!-- Jackson -->
+        <jackson.core.version>2.10.3</jackson.core.version>
+        <jackson.databind.version>2.10.3</jackson.databind.version>
+        <jackson.annotations.version>2.10.3</jackson.annotations.version>
+
         <!-- Others -->
         <javax.jstl.version>1.2</javax.jstl.version>
-        <jackson.core.version>2.9.9</jackson.core.version>
-        <jackson.databind.version>2.9.9.2</jackson.databind.version>
-        <jackson.annotations.version>2.9.9</jackson.annotations.version>
     </properties>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+
         <pluginManagement>
             <plugins>
+                <!-- Versions Plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven.versions.version}</version>
+                </plugin>
+
+                <!-- Clean Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven.clean.version}</version>
+                </plugin>
+
+                <!-- Compiler Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                </plugin>
+
+                <!-- Surefire Plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.plugin.version}</version>
-                    <configuration>
-                        <skipTests>${skipUnitTests}</skipTests>
-                    </configuration>
+                    <version>${maven.surefire.version}</version>
+                </plugin>
+
+                <!-- Install Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven.install.version}</version>
+                </plugin>
+
+                <!-- Site Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven.site.version}</version>
+                </plugin>
+
+                <!-- Deploy Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven.deploy.version}</version>
+                </plugin>
+
+                <!-- Jar Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.jar.version}</version>
+                </plugin>
+
+                <!-- War Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven.war.version}</version>
+                </plugin>
+
+                <!-- Resources Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.version}</version>
+                </plugin>
+
+                <!-- Enforcer Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven.enforcer.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
+            <!-- Versions Plugin -->
+            <!-- Used to find the latest version of plugins and dependencies.
+            Usage:
+            - Check plugin updates: mvn versions:display-plugin-updates
+            - Check dependency updates: mvn versions:display-dependency-updates
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <executable>${java.home}/bin/javac</executable>
+                </configuration>
+            </plugin>
+
+            <!-- Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.plugin.version}</version>
                 <configuration>
                     <skipTests>${skipUnitTests}</skipTests>
                 </configuration>
+            </plugin>
+
+            <!-- Enforcer Plugin -->
+            <!-- Used to enforce a minimum version of Maven. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${project.minimum.maven.version}</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -229,4 +361,19 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <!-- =================================================================================== -->
+        <!-- Unit Tests Profile -->
+        <!-- Usage: mvn clean [test|...|verify|install] -P UnitTests -->
+        <!-- =================================================================================== -->
+        <profile>
+            <id>UnitTests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <skipUnitTests>false</skipUnitTests>
+            </properties>
+        </profile>
+    </profiles>
 </project>

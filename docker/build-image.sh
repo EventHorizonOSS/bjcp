@@ -8,12 +8,12 @@ echo "==========================================================================
 echo "Removing old Docker containers ..."
 echo "============================================================================================="
 echo
-DOCKER_CONTAINER_IDS=`docker container ls -f name=${DOCKER_CONTAINER_NAME} -a -q`
+DOCKER_CONTAINER_IDS=$(docker container ls -f name=${DOCKER_CONTAINER_NAME} -a -q)
 for DOCKER_CONTAINER_ID in ${DOCKER_CONTAINER_IDS}; do
     echo "Stopping container ${DOCKER_CONTAINER_ID}"
-    docker container stop ${DOCKER_CONTAINER_ID}
+    docker container stop "${DOCKER_CONTAINER_ID}"
     echo "Removing container ${DOCKER_CONTAINER_ID}"
-    docker container rm ${DOCKER_CONTAINER_ID}
+    docker container rm "${DOCKER_CONTAINER_ID}"
 done
 sleep 1
 

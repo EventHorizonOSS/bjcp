@@ -1,7 +1,9 @@
 package br.com.eventhorizon.bjcp.controllers;
 
+import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
-import br.com.eventhorizon.bjcp.common.http.HttpResponse;
+import br.com.eventhorizon.bjcp.common.http.Response;
+import br.com.eventhorizon.bjcp.common.http.ResponseStatus;
 import br.com.eventhorizon.bjcp.model.Style;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
 import br.com.eventhorizon.bjcp.services.StyleService;
@@ -21,7 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/styles")
-public class StyleController {
+public class StyleController extends Controller {
 
   private StyleService styleService;
 
@@ -33,31 +35,22 @@ public class StyleController {
   @GetMapping
   @ResponseBody
   public ResponseEntity getCategories(@RequestParam Map<String, String> query) {
-    try {
-      HttpHeaders responseHeaders = new HttpHeaders();
-      responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
+    HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
 
-      List<Style> styles;
-      if (query.isEmpty()) {
-        styles = styleService.find();
-      } else {
-        styles = styleService.find(query);
-      }
-
-      return ResponseEntity
-          .status(HttpStatus.OK)
-          .headers(responseHeaders)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
-              .data(styles)
-              .build());
-    } catch (Exception e) {
-      return ResponseEntity
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error")
-              .build());
+    List<Style> styles;
+    if (query.isEmpty()) {
+      styles = styleService.find();
+    } else {
+      styles = styleService.find(query);
     }
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .headers(responseHeaders)
+        .body(Response.Builder.create(ResponseStatus.SUCCESS)
+            .data(styles)
+            .build());
   }
 
   @GetMapping("/{id}")
@@ -72,22 +65,14 @@ public class StyleController {
       return ResponseEntity
           .status(HttpStatus.OK)
           .headers(responseHeaders)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SUCCESS)
+          .body(Response.Builder.create(ResponseStatus.SUCCESS)
               .data(style)
               .build());
     } catch (ResourceNotFoundException e) {
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.CLIENT_ERROR)
-              .errorCode(ErrorCode.RESOURCE_NOT_FOUND)
-              .errorMessage("Resource not found")
-              .build());
-    } catch (Exception e) {
-      return ResponseEntity
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(HttpResponse.Builder.create(HttpResponse.Status.SERVER_ERROR)
-              .errorCode(ErrorCode.UNKNOWN_ERROR)
-              .errorMessage("Unknown error")
+          .body(Response.Builder.create(ResponseStatus.CLIENT_ERROR)
+              .addError(ErrorCode.RESOURCE_NOT_FOUND, "Resource not found")
               .build());
     }
   }

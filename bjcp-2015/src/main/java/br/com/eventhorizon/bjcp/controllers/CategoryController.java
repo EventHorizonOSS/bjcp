@@ -1,13 +1,13 @@
 package br.com.eventhorizon.bjcp.controllers;
 
+import br.com.eventhorizon.bjcp.common.domain.validation.CreateValidation;
 import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.Response;
 import br.com.eventhorizon.bjcp.common.http.ResponseStatus;
-import br.com.eventhorizon.bjcp.common.model.PostValidator;
-import br.com.eventhorizon.bjcp.model.Category;
+import br.com.eventhorizon.bjcp.domain.model.Category;
 import br.com.eventhorizon.bjcp.services.CategoryService;
-import br.com.eventhorizon.bjcp.services.ResourceAlreadyExist;
+import br.com.eventhorizon.bjcp.services.ResourceAlreadyExistException;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -44,7 +44,7 @@ public class CategoryController extends Controller {
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
 
-    List<Category> categories;
+    List<? extends Category> categories;
     if (query.isEmpty()) {
       categories = categoryService.find();
     } else {
@@ -84,7 +84,7 @@ public class CategoryController extends Controller {
   @PostMapping
   @ResponseBody
   public ResponseEntity postCategory(
-      @Validated(PostValidator.class) @RequestBody Category category) {
+      @Validated(CreateValidation.class) @RequestBody Category category) {
     try {
       Category createdCategory = this.categoryService.create(category);
 
@@ -93,7 +93,7 @@ public class CategoryController extends Controller {
           .body(Response.Builder.create(ResponseStatus.SUCCESS)
               .data(createdCategory)
               .build());
-    } catch (ResourceAlreadyExist e) {
+    } catch (ResourceAlreadyExistException e) {
       return ResponseEntity
           .status(HttpStatus.CONFLICT)
           .body(Response.Builder.create(ResponseStatus.CLIENT_ERROR)
@@ -105,14 +105,22 @@ public class CategoryController extends Controller {
   @PutMapping("/{id}")
   @ResponseBody
   public ResponseEntity putCategory(@PathVariable String id, @RequestBody Category category) {
-    category.setId(id);
-    Category updatedCategory = this.categoryService.update(category);
+    try {
+      category.setId(id);
+      Category updatedCategory = this.categoryService.update(category);
 
-    return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(Response.Builder.create(ResponseStatus.SUCCESS)
-            .data(updatedCategory)
-            .build());
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(Response.Builder.create(ResponseStatus.SUCCESS)
+              .data(updatedCategory)
+              .build());
+    } catch (ResourceNotFoundException e) {
+      return ResponseEntity
+          .status(HttpStatus.CONFLICT)
+          .body(Response.Builder.create(ResponseStatus.CLIENT_ERROR)
+              .addError(ErrorCode.RESOURCE_ALREADY_EXIST, "Resource not found")
+              .build());
+    }
   }
 
 }

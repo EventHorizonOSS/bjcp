@@ -70,6 +70,7 @@ services:
       - '27017:27017'
     volumes:
       - ./mongo/init:/docker-entrypoint-initdb.d
+      - ./mongo/mongod.conf.yml:/data/mongo/config/mongod.conf
 
 networks:
   localbridge:

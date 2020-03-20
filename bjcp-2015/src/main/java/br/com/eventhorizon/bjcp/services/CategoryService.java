@@ -1,7 +1,8 @@
 package br.com.eventhorizon.bjcp.services;
 
-import br.com.eventhorizon.bjcp.data.CategoryRepository;
-import br.com.eventhorizon.bjcp.model.Category;
+import br.com.eventhorizon.bjcp.persistence.CategoryRepository;
+import br.com.eventhorizon.bjcp.domain.model.Category;
+import br.com.eventhorizon.bjcp.persistence.PersistedCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,12 @@ public class CategoryService {
     this.categoryRepository = categoryRepository;
   }
 
-  public List<Category> find() {
+  public List<? extends Category> find() {
     return categoryRepository.findAll();
   }
 
   public Category findById(String id) throws ResourceNotFoundException {
-    Optional<Category> op = categoryRepository.findById(id);
+    Optional<? extends Category> op = categoryRepository.findById(id);
     if (op.isPresent()) {
       return op.get();
     }
@@ -38,20 +39,28 @@ public class CategoryService {
     return Collections.emptyList();
   }
 
-  public Category create(Category category) throws ResourceAlreadyExist {
+  public Category create(Category category) throws ResourceAlreadyExistException {
     try {
-      return this.categoryRepository.insert(category);
+      return this.categoryRepository.create((PersistedCategory) category);
     } catch (DuplicateKeyException e) {
-      throw new ResourceAlreadyExist(category.getId());
+      throw new ResourceAlreadyExistException(category.getId());
     }
   }
 
-  public Category update(Category category) {
-    try {
-      return this.categoryRepository.save(category);
-    } catch (Exception e) {
-      throw e;
+  public Category update(Category category) throws ResourceNotFoundException {
+    Category updatedCategory = this.categoryRepository.update((PersistedCategory) category);
+    if (updatedCategory == null) {
+      throw new ResourceNotFoundException(category.getId());
     }
+    return updatedCategory;
+  }
+
+  public Category patch(Category category) throws ResourceNotFoundException {
+    Category updatedCategory = this.categoryRepository.patch((PersistedCategory) category);
+    if (updatedCategory == null) {
+      throw new ResourceNotFoundException(category.getId());
+    }
+    return updatedCategory;
   }
 
 }

@@ -119,7 +119,7 @@ try {
     }
     let categoriesCollection = db.getCollection(collectionName);
     categories.forEach(function(category) {
-        let now = new Date();
+        let now = NumberLong(Date.now());
         category.createdAt = now;
         category.updatedAt = now;
         let result = categoriesCollection.insertOne(category);

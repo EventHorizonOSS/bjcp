@@ -1,4 +1,4 @@
-package br.com.eventhorizon.bjcp.model;
+package br.com.eventhorizon.bjcp.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

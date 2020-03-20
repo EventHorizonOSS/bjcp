@@ -56,6 +56,7 @@
         <spring.web.version>5.2.4.RELEASE</spring.web.version>
         <spring.webmvc.version>5.2.4.RELEASE</spring.webmvc.version>
         <spring.aspects.version>5.2.4.RELEASE</spring.aspects.version>
+        <spring.tx.version>5.2.4.RELEASE</spring.tx.version>
         <spring.hateoas.version>0.25.1.RELEASE</spring.hateoas.version>
         <spring.data.commons.version>2.1.10.RELEASE</spring.data.commons.version>
         <spring.data.mongodb.version>2.1.10.RELEASE</spring.data.mongodb.version>
@@ -270,6 +271,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aspects</artifactId>
                 <version>${spring.aspects.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.tx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.hateoas</groupId>

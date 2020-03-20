@@ -16,7 +16,7 @@ public abstract class Controller {
     return ResponseEntity
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(Response.Builder.create(ResponseStatus.SERVER_ERROR)
-            .addError(ErrorCode.UNKNOWN_ERROR, "Unknown error")
+            .addError(ErrorCode.UNKNOWN_ERROR, "Unknown error: " + exception.getMessage())
             .build());
   }
 

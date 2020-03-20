@@ -4,7 +4,7 @@ import br.com.eventhorizon.bjcp.common.http.Controller;
 import br.com.eventhorizon.bjcp.common.http.ErrorCode;
 import br.com.eventhorizon.bjcp.common.http.Response;
 import br.com.eventhorizon.bjcp.common.http.ResponseStatus;
-import br.com.eventhorizon.bjcp.model.Style;
+import br.com.eventhorizon.bjcp.domain.model.Style;
 import br.com.eventhorizon.bjcp.services.ResourceNotFoundException;
 import br.com.eventhorizon.bjcp.services.StyleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class StyleController extends Controller {
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set("x-my-custom-header", "x-my-custom-header-value");
 
-    List<Style> styles;
+    List<? extends Style> styles;
     if (query.isEmpty()) {
       styles = styleService.find();
     } else {

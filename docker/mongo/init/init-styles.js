@@ -228,7 +228,7 @@ try {
     }
     let collection = db.getCollection(collectionName);
     documents.forEach(function(document) {
-        let now = new Date();
+        let now = NumberLong(Date.now());
         document.createdAt = now;
         document.updatedAt = now;
         let result = collection.insertOne(document);

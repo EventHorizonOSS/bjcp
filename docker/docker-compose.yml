@@ -1,29 +1,76 @@
-version: '2'
+version: '3'
 
 services:
-  java-web-services:
+  bjcp:
+    build: bjcp
     image: bjcp:latest
+    depends_on:
+      - mongo
     container_name: bjcp
     command: /usr/local/tomcat/bin/catalina.sh run
-    ports:
-      - '8080:8080'
-      - '5000:5000'
-      - '10483:10483'
     environment:
-      MY_ENVE: "myEnvValue"
-      JAVA_OPTS: "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=5000,suspend=n -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=10483 -Dcom.sun.management.jmxremote.rmi.port=10483 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=localhost"
+      JAVA_OPTS: "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=6000,suspend=n -Djavax.net.debug=ssl:handshake"
+      LOG4J_CONFIGURATION_FILE: "/usr/local/tomcat/webapps/bjcp-2015/WEB-INF/classes/log4j.xml"
+      MONGO_SERVER_ADDRESS: "mongo.eventhorizon.com.br"
+      MONGO_SERVER_PORT: "27017"
+      MONGO_DATABASE: "bjcp"
+      MONGO_AUTH_DATABASE: "admin"
+      MONGO_AUTH_USERNAME: "root"
+      MONGO_AUTH_PASSWORD: "password"
+    domainname: eventhorizon.com.br
+    hostname: bjcp
+    extra_hosts:
+      - "localhost:127.0.0.1"
+      - "localhost.eventhorizon.com.br:127.0.0.1"
+      - "bjcp:127.0.0.1"
+      - "bjcp.eventhorizon.com.br:127.0.0.1"
     networks:
       localbridge:
         aliases:
           - bjcp
-    extra_hosts:
-      - "localhost.eventhorizon.com.br:127.0.0.1"
+          - bjcp.eventhorizon.com.br
+    ports:
+      - '8080:8080'
+      - '6000:6000'
+      - '6001:6001'
+      - '6003:6003'
     volumes:
       # CATALINA_OPTS via setenv.sh
-#      - ./setenv.sh:/opt/tomcat/bin/setenv.sh
+      - ./bjcp/setenv.sh:/usr/local/tomcat/bin/setenv.sh
+
+      # Tomcat files
+#      - ./bjcp/certs/truststore:/data/tomcat/certs/truststore
+#      - ./bjcp/certs/keystore:/data/tomcat/certs/keystore
 
       # War files
       - ../bjcp-2015/target/bjcp-2015.war:/usr/local/tomcat/webapps/bjcp-2015.war
+
+  mongo:
+    build: mongo
+    image: mongo:latest
+    container_name: mongo
+    command: mongod --config /data/mongo/config/mongod.conf
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "password"
+      MONGO_INITDB_DATABASE: "bjcp"
+    domainname: eventhorizon.com.br
+    hostname: mongo
+    extra_hosts:
+      - "localhost:127.0.0.1"
+      - "localhost.eventhorizon.com.br:127.0.0.1"
+      - "mongo:127.0.0.1"
+      - "mongo.eventhorizon.com.br:127.0.0.1"
+    networks:
+      localbridge:
+        aliases:
+          - mongo
+          - mongo.eventhorizon.com.br
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongo/init:/docker-entrypoint-initdb.d
+      - ./mongo/mongod.conf.yml:/data/mongo/config/mongod.conf
 
 networks:
   localbridge:

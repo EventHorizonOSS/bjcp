@@ -1,6 +1,6 @@
 # BJCP
 
-BJCP REST API implemented with  Spring Web MVC
+BJCP REST API implemented with  Spring Web MVC.
 
 ## Requirements
 

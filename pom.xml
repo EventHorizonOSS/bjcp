@@ -71,7 +71,7 @@
         <slf4j.log4j12.version>1.7.26</slf4j.log4j12.version>
 
         <!-- Log4j -->
-        <log4j.core.version>2.12.1</log4j.core.version>
+        <log4j.core.version>2.15.0</log4j.core.version>
         <log4j.api.version>2.12.1</log4j.api.version>
 
         <!-- Jackson -->

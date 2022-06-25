@@ -59,7 +59,7 @@
         <spring.tx.version>5.2.4.RELEASE</spring.tx.version>
         <spring.hateoas.version>0.25.1.RELEASE</spring.hateoas.version>
         <spring.data.commons.version>2.1.10.RELEASE</spring.data.commons.version>
-        <spring.data.mongodb.version>2.1.10.RELEASE</spring.data.mongodb.version>
+        <spring.data.mongodb.version>3.3.5</spring.data.mongodb.version>
 
         <!-- Hibernate -->
         <hibernate.validator.version>6.1.0.Final</hibernate.validator.version>
